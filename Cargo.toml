@@ -1,0 +1,29 @@
+[package]
+name = "bytestringmut"
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.87"
+license = "MIT"
+authors = ["Joshua Booth <joshua.n.booth@gmail.com>"]
+description = "Mutable manipulation of `ByteString`s"
+repository = "https://github.com/jnbooth/bytestringmut"
+readme = "README.md"
+keywords = ["buffers", "string", "bytes", "bytestring"]
+categories = ["no-std"]
+
+[features]
+default = ["std"]
+
+extra-platforms = ["bytes/extra-platforms"]
+std = ["bytes/std"]
+
+[dependencies.bytes]
+version = "1.2"
+default-features = false
+
+[dependencies.bytestring]
+version = "1.0"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+must_use_candidate = "allow"
