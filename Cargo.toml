@@ -1,6 +1,6 @@
 [package]
 name = "bytestringmut"
-version = "1.0.1"
+version = "1.0.2"
 edition = "2021"
 rust-version = "1.87"
 license = "MIT"
@@ -10,12 +10,6 @@ repository = "https://github.com/jnbooth/bytestringmut"
 readme = "README.md"
 keywords = ["buffers", "string", "bytes", "bytestring"]
 categories = ["no-std"]
-
-[features]
-default = ["std"]
-
-extra-platforms = ["bytes/extra-platforms"]
-std = ["bytes/std"]
 
 [dependencies.bytes]
 version = "1.11.1"

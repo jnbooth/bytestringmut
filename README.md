@@ -1,6 +1,6 @@
 # `bytestringmut`
 
-Mutable manipulation of [`ByteString`](https://docs.rs/bytestring/latest/bytestring/struct.ByteString.html)s from the [`bytestring`](https://docs.rs/bytestring) crate.
+Mutable manipulation of [`ByteString`](https://docs.rs/bytestring/latest/bytestring/struct.ByteString.html)s from the [`bytestring`](https://docs.rs/bytestring) crate. Uses `#![no_std]`.
 
 [![crates.io](https://img.shields.io/crates/v/bytestringmut.svg)](https://crates.io/crates/bytestringmut)
 [![Documentation](https://docs.rs/bytestringmut/badge.svg)](https://docs.rs/bytestringmut)
@@ -23,17 +23,6 @@ Next, add this to your crate:
 ```rust
 use bytestringmut::ByteStringMut;
 ```
-
-## no_std support
-
-To use `bytestringmut` with no_std environment, disable the (enabled by default) `std` feature.
-
-```toml
-[dependencies]
-bytestringmut = { version = "1", default-features = false }
-```
-
-`bytestringmut` forwards the `std` feature to `bytes`. It also forwards the `extra-platforms` feature if enabled. See the [no_std documentation for the `bytes` crate](https://docs.rs/crate/bytes/latest) for more information.
 
 ## License
 
