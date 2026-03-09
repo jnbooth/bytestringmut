@@ -1,10 +1,10 @@
-//! A pool for creating byte-slices and strings that can be cheaply cloned and shared across threads
-//! without allocating memory. Byte-slices are shared as [`Bytes`], and strings are shared as
-//! [`ByteString`]s.
+//! Mutable manipulation of [`ByteString`]s for creating UTF-8 strings that can be cheaply cloned
+//! and shared across threads without allocating memory.
 //!
-//! Internally, a `BytesPool` is a wrapper around a [`ByteStringMut`] buffer from the [`bytes`] crate.
-//! It shares data by appending the data to its buffer and then splitting the buffer off with
-//! [`ByteStringMut::split`]. This only allocates memory if the buffer needs to resize.
+//! Internally, a `ByteStringMut` is a wrapper around a [`BytesMut`] buffer from the [`bytes`]
+//! crate. It offers most of the same functionality, except it prevents the underlying data from
+//! becoming invalid UTF-8. Due to this, it can safely be used to construct strings, as well as
+//! dereferenced as a `&str` or `&mut str`.
 
 #![no_std]
 
@@ -27,6 +27,35 @@ pub struct ByteStringMut {
     inner: BytesMut,
 }
 
+/// A unique reference to a contiguous slice of memory, with guarantees that the data held within
+/// that memory is valid UTF-8.
+///
+/// Like [`BytesMut`], `ByteStringMut` represents a unique view into a potentially shared memory
+/// region.  Given the uniqueness guarantee, owners of `ByteStringMut` handles are able to
+/// mutate the memory.
+///
+/// # Examples
+///
+/// ```
+/// use bytestringmut::ByteStringMut;
+///
+/// let mut buf = ByteStringMut::with_capacity(64);
+///
+/// buf.push('h');
+/// buf.push('e');
+/// buf.push_str(&"llo");
+///
+/// assert_eq!(buf, "hello");
+///
+/// // Freeze the buffer so that it can be shared
+/// let a = buf.freeze();
+///
+/// // This does not allocate, instead `b` points to the same memory.
+/// let b = a.clone();
+///
+/// assert_eq!(a, "hello");
+/// assert_eq!(b, "hello");
+/// ```
 impl ByteStringMut {
     /// Creates a new `ByteStringMut` with the specified capacity.
     ///
